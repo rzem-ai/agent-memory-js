@@ -171,6 +171,12 @@ export class AgentMemory {
     return reply.structured["found"] === false ? null : parseDocument(reply.text);
   }
 
+  /** Low-level escape hatch: one tools/call, returning the frozen text and
+   *  structuredContent as the server sent them. */
+  async raw(name: string, args: Record<string, unknown> = {}): Promise<{ text: string; structured: Record<string, unknown> }> {
+    return this.call(name, args);
+  }
+
   private async call(name: string, args: Record<string, unknown>): Promise<ToolReply> {
     let result: CallToolResult;
     try {
