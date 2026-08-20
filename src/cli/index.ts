@@ -252,17 +252,6 @@ async function dispatch(): Promise<CommandResult> {
       });
     case "health":
       return runHealth();
-    case "hook": {
-      const { runHook } = await import("./hook.js");
-      return runHook(sub, connectOptions(), {
-        limit: num("limit", flags.limit),
-        corpus: flags.corpus,
-        timeoutMs: num("timeout-ms", flags["timeout-ms"]),
-        minChars: num("min-chars", flags["min-chars"]),
-        maxFacts: num("max-facts", flags["max-facts"]),
-        model: flags.model,
-      });
-    }
     case undefined:
       throw new UsageError(USAGE);
     default:
@@ -275,10 +264,25 @@ if (flags.help) {
   process.exit(0);
 }
 
-try {
-  const result = await dispatch();
-  emitOk(out, result.tool, result.data, result.text);
+if (positionals[0] === "hook") {
+  // Hooks own their stdout/stderr and never fail the caller — the envelope
+  // machinery below must not print anything around them.
+  const { runHook } = await import("./hook.js");
+  await runHook(positionals[1], connectOptions(), {
+    limit: num("limit", flags.limit),
+    corpus: flags.corpus,
+    timeoutMs: num("timeout-ms", flags["timeout-ms"]),
+    minChars: num("min-chars", flags["min-chars"]),
+    maxFacts: num("max-facts", flags["max-facts"]),
+    model: flags.model,
+  });
   process.exitCode = 0;
-} catch (err) {
-  process.exitCode = emitError(out, err);
+} else {
+  try {
+    const result = await dispatch();
+    emitOk(out, result.tool, result.data, result.text);
+    process.exitCode = 0;
+  } catch (err) {
+    process.exitCode = emitError(out, err);
+  }
 }

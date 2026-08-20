@@ -12,6 +12,7 @@ export default tseslint.config(
       "vitest.config.ts",
       "scripts/**",
       "plugin/**",
+      "tests/**/*.mjs",
     ],
   },
   eslint.configs.recommended,
