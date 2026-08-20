@@ -1,4 +1,13 @@
 export * from "./types.js";
+export { AgentMemory, type CaptureOutcome, type SearchOptions, type SearchResponse } from "./client.js";
+export {
+  DEFAULT_TIMEOUT_MS,
+  DEFAULT_URL,
+  type ConnectOptions,
+  type CustomTransportOptions,
+  type HttpConnectOptions,
+  type StdioConnectOptions,
+} from "./connect.js";
 export {
   AgentMemoryError,
   AuthError,
