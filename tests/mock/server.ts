@@ -56,7 +56,7 @@ export function createMockServer(): { server: McpServer; connect: (transport: Tr
   const tool = (
     name: string,
     inputSchema: Record<string, z.ZodType>,
-    handler: (args: Record<string, unknown>) => ToolResult,
+    handler: (args: Record<string, unknown>) => ToolResult | Promise<ToolResult>,
   ): void => {
     server.registerTool(
       name,
@@ -74,9 +74,12 @@ export function createMockServer(): { server: McpServer; connect: (transport: Tr
       relevance_mode: z.enum(["recency_weighted", "similarity", "recent", "since"]).optional(),
       relevance_value: z.number().positive().optional(),
     }),
-    (args) => {
+    async (args) => {
       const corpus = (args["corpus"] as string | undefined) ?? "all";
       const query = args["query"] as string;
+      if (query === "slow") {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+      }
       if (query === "denied") {
         return errorResult(
           "Insufficient scope: 'memory_search' requires 'memory:read' (caller 'nobody' has: none).",
