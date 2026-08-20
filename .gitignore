@@ -1,0 +1,7 @@
+.DS_Store
+.env
+.remember
+coverage/
+dist/
+node_modules/
+*.tgz

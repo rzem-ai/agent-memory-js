@@ -1,0 +1,46 @@
+{
+  "name": "@rzem-ai/agent-memory-js",
+  "version": "0.1.0",
+  "description": "Typed JS client + CLI for the agent-memory MCP server, plus a Claude Code plugin.",
+  "license": "MIT",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rzem-ai/agent-memory.js.git"
+  },
+  "publishConfig": { "access": "public" },
+  "main": "dist/index.js",
+  "exports": {
+    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
+    "./parse": { "types": "./dist/parse/index.d.ts", "import": "./dist/parse/index.js" }
+  },
+  "bin": { "agent-memory-js": "dist/cli/index.js" },
+  "files": ["dist/", "plugin/"],
+  "scripts": {
+    "build": "node scripts/clean-dist.mjs && tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.eslint.json",
+    "lint": "eslint src tests",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:live": "AGENT_MEMORY_LIVE=1 vitest run tests/live.test.ts",
+    "check": "npm run lint && npm run typecheck && npm test && npm run build",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/client": "^2.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@modelcontextprotocol/node": "^2.0.0",
+    "@modelcontextprotocol/server": "^2.0.0",
+    "@types/node": "^25.5.0",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2",
+    "typescript-eslint": "^8.52.0",
+    "vitest": "^4.0.18",
+    "zod": "^4.4.3"
+  }
+}
