@@ -1,22 +1,37 @@
 {
   "name": "@rzem-ai/agent-memory-js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Typed JS client + CLI for the agent-memory MCP server, plus a Claude Code plugin.",
   "license": "MIT",
   "type": "module",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rzem-ai/agent-memory-js.git"
   },
-  "publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/index.js",
   "exports": {
-    ".": { "types": "./dist/index.d.ts", "import": "./dist/index.js" },
-    "./parse": { "types": "./dist/parse/index.d.ts", "import": "./dist/parse/index.js" }
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./parse": {
+      "types": "./dist/parse/index.d.ts",
+      "import": "./dist/parse/index.js"
+    }
   },
-  "bin": { "agent-memory-js": "dist/cli/index.js" },
-  "files": ["dist/", "plugin/"],
+  "bin": {
+    "agent-memory-js": "dist/cli/index.js"
+  },
+  "files": [
+    "dist/",
+    "plugin/"
+  ],
   "scripts": {
     "build": "node scripts/clean-dist.mjs && tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.eslint.json",
