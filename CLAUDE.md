@@ -26,6 +26,13 @@ Typed JS client + CLI + Claude Code plugin for the agent-memory MCP server
 - **No agent_id.** The credential carries the namespace. If a tool call
   seems to need an agent parameter, the tool name is from the dead old
   server.
+- **release.yml is shared.** `.github/workflows/release.yml` is kept
+  byte-identical with the sibling repo's copy at
+  `../agent-memory/.github/workflows/release.yml`. Change both together or
+  the two release pipelines drift. It fires on a pushed `v*.*.*` tag and
+  asserts two things a tag push cannot assert on its own: the tagged commit
+  is an ancestor of `main`, and the tag matches `package.json`. Actions are
+  SHA-pinned; bump the pin in every workflow in both repos at once.
 - **Gate:** `npm run check` (lint + typecheck + test + build) before
   claiming any change done. `tests/plugin.test.ts` guards the plugin files;
   `claude plugin validate ./plugin` and `claude plugin validate .` must pass
